@@ -39,8 +39,8 @@ class OklchPlotter:
         self.fig, self.ax = plt.subplots()
         self.label_axes()
         yellow = Plot_Lines(self.x, self.ax, self.lightness_stats, 'y')
-        self.ax.legend((yellow.line, yellow.square, yellow.triangle, yellow.dot),
-                  ('lightness', 'mode', 'median', 'mean'))
+        self.ax.legend((yellow.line, yellow.square, yellow.triangle, yellow.dot, yellow.dotted_vline_left),
+                  ('lightness', 'mode', 'median', 'mean', 'std dev'))
         self.marker = 'l'
 
     def plot_chroma(self):
@@ -49,8 +49,8 @@ class OklchPlotter:
         self.fig, self.ax = plt.subplots()
         self.label_axes()
         cyan = Plot_Lines(self.x, self.ax, self.chroma_stats, 'c')
-        self.ax.legend((cyan.line, cyan.square, cyan.triangle, cyan.dot),
-                       ('chroma', 'mode', 'median', 'mean'))
+        self.ax.legend((cyan.line, cyan.square, cyan.triangle, cyan.dot, cyan.dotted_vline_left),
+                       ('chroma', 'mode', 'median', 'mean', 'std dev'))
         self.marker = 'c'
 
     def plot_hue(self):
@@ -59,8 +59,8 @@ class OklchPlotter:
         self.fig, self.ax = plt.subplots()
         self.label_axes()
         magenta = Plot_Lines(self.x, self.ax, self.hue_stats, 'm')
-        self.ax.legend((magenta.line, magenta.square, magenta.triangle, magenta.dot),
-                       ('hue', 'mode', 'median', 'mean'))
+        self.ax.legend((magenta.line, magenta.square, magenta.triangle, magenta.dot, magenta.dotted_vline_left),
+                       ('hue', 'mode', 'median', 'mean', 'std dev'))
         self.marker = 'h'
 
     def plot_combo_lc(self):
@@ -73,8 +73,8 @@ class OklchPlotter:
         self.label_axes()
         yellow = Plot_Lines(self.x, self.ax, self.lightness_stats, 'y')
         cyan = Plot_Lines(self.x, self.ax, self.chroma_stats, 'c')
-        self.ax.legend((yellow.line, cyan.line, cyan.square, cyan.triangle, cyan.dot),
-                       ('lightness', 'chroma', 'mode', 'median', 'mean'))
+        self.ax.legend((yellow.line, cyan.line, cyan.square, cyan.triangle, cyan.dot, cyan.dotted_vline_left),
+                       ('lightness', 'chroma', 'mode', 'median', 'mean', 'std dev'))
         self.marker = 'lc'
 
     def plot_combo_lch(self):
@@ -90,8 +90,12 @@ class OklchPlotter:
         yellow = Plot_Lines(self.x, self.ax, self.lightness_stats, 'y')
         cyan = Plot_Lines(self.x, self.ax, self.chroma_stats, 'c')
         magenta = Plot_Lines(self.x, self.ax, self.hue_stats, 'm')
-        self.ax.legend((yellow.line, cyan.line, magenta.line, magenta.square, magenta.triangle, magenta.dot),
-                       ('lightness', 'chroma', 'hue', 'mode', 'median', 'mean'))
+        self.ax.legend((yellow.line, cyan.line, magenta.line,
+                        magenta.square, magenta.triangle, magenta.dot,
+                        magenta.dotted_vline_left),
+                       ('lightness', 'chroma', 'hue',
+                        'mode', 'median', 'mean',
+                        'std dev'))
         self.marker = 'lch'
 
 
