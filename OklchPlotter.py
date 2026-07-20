@@ -18,7 +18,7 @@ class OklchPlotter:
         self.marker = ''
 
     def label_axes(self):
-        self.ax.set_xlabel('value')
+        self.ax.set_xlabel('value: L in 3‰, C in 1‰, H in 1° steps')
         self.ax.set_ylabel('pixel count')
         result = self.thread.thread_id
         self.ax.set_title(result)
