@@ -1,6 +1,6 @@
 import os
 import csv
-import oklch
+from OklchConverter import Pixel
 
 def _read_csv(filename: str):
     with open(filename) as csvfile:
@@ -30,7 +30,7 @@ def create_oklch_dict_from_hexcodes(filename: str):
     ids = _get_column(table, 0)
     hexcodes = _get_column(table, 1)
     rgbs = [_parse_hexcode_to_rgb(hexcode) for hexcode in hexcodes]
-    oklchs = [oklch.srgb_to_oklch(rgb) for rgb in rgbs]
+    oklchs = [Pixel(rgb) for rgb in rgbs]
     lookup = _create_lookup(ids, oklchs)
     return lookup
 
