@@ -3,45 +3,46 @@ import statistics
 import oklch
 
 
-class Pixel:
+class Datum:
     def __init__(self, rgb: tuple[int, int, int]):
         self.rgb = rgb
         self.oklch = oklch.srgb_to_oklch(rgb)
         self.ok_lightness = self.oklch[0]
         self.ok_chroma = self.oklch[1]
         self.ok_hue = self.oklch[2]
+        # arbitrary decision to round and measure the values in the following way
+        # Lightness in three per mille steps
+        self.lightness_for_hist = int(round(self.ok_lightness / 3 * 1000))
+        # Chroma in one per mille steps
+        self.chroma_for_hist = int(round(self.ok_chroma * 1000))
+        # Hue in one degree steps
+        self.hue_for_hist = int(round(self.ok_hue))
 
 
 class Histogram:
     def __init__ (self, rgbs):
         self.rgbs = rgbs
-        self.pixels = []
+        self.data = []
         for rgb in self.rgbs:
-            pixel = Pixel(rgb)
-            self.pixels.append(pixel)
+            datum = Datum(rgb)
+            self.data.append(datum)
         self.data_lightness = []
         self.data_chroma = []
         self.data_hue = []
-        # arbitrary decision to round and measure the values in the following way
-        # Lightness in three per mille
+        # define histogram limits according to the decided step sizes
         self.lower_limit_lightness = 0
         self.upper_limit_lightness = 333
         self.hist_lightness = [0] * (self.upper_limit_lightness + 1)
-        # Chroma in per mille
         self.lower_limit_chroma = 0
         self.upper_limit_chroma = 370
         self.hist_chroma = [0] * (self.upper_limit_chroma + 1)
-        # Hue in degrees
         self.lower_limit_hue = 0
         self.upper_limit_hue = 359
         self.hist_hue = [0] * (self.upper_limit_hue + 1)
-        for pixel in self.pixels:
-            lightness = int(round(pixel.oklch[0] / 3 * 1000))
-            self.data_lightness.append(lightness)
-            chroma = int(round(pixel.oklch[1] * 1000))
-            self.data_chroma.append(chroma)
-            hue = int(round(pixel.oklch[2]))
-            self.data_hue.append(hue)
+        for datum in self.data:
+            self.data_lightness.append(datum.lightness_for_hist)
+            self.data_chroma.append(datum.chroma_for_hist)
+            self.data_hue.append(datum.hue_for_hist)
         self._check_limits()
         self._fill_histogram(self.hist_lightness, self.data_lightness)
         self._fill_histogram(self.hist_chroma, self.data_chroma)
@@ -72,8 +73,8 @@ class Histogram:
         self.mode_hue = statistics.mode(self.data_hue)
         if self.mode_hue < 180 or self.mode_hue >= 270:
             data_hue_off = []
-            for pixel_hue in self.data_hue:
-                hue_off = (pixel_hue + 180) % 360
+            for hue in self.data_hue:
+                hue_off = (hue + 180) % 360
                 data_hue_off.append(hue_off)
             median_hue_off = int(round(statistics.median(data_hue_off)))
             mean_hue_off = int(round(statistics.mean(data_hue_off)))
