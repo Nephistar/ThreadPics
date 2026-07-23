@@ -3,15 +3,23 @@ from matplotlib import pyplot as plt
 import numpy as np
 
 from ThreadPic import ThreadPic
-from OklchConverter import Histogram
+from OklchConverter import Datum, Histogram
 
 
 class OklchPlotter:
-    def __init__(self, thread: ThreadPic):
-        self.thread = thread
-        self.lightness_stats = Plot_Stats(thread.oklch, 'l')
-        self.chroma_stats = Plot_Stats(thread.oklch, 'c')
-        self.hue_stats = Plot_Stats(thread.oklch, 'h')
+    def __init__(self, thread_pic: ThreadPic, reference: Datum=None):
+        self.thread_pic = thread_pic
+        if reference is None:
+            self.ref_lightness = None
+            self.ref_chroma = None
+            self.ref_hue = None
+        else:
+            self.ref_lightness = reference.lightness_for_hist
+            self.ref_chroma = reference.chroma_for_hist
+            self.ref_hue = reference.hue_for_hist
+        self.lightness_stats = Plot_Stats(thread_pic.oklch, self.ref_lightness, 'l')
+        self.chroma_stats = Plot_Stats(thread_pic.oklch, self.ref_chroma, 'c')
+        self.hue_stats = Plot_Stats(thread_pic.oklch, self.ref_hue,'h')
         self.x = None
         self.fig: plt.Figure
         self.ax: plt.Axes
@@ -20,52 +28,58 @@ class OklchPlotter:
     def label_axes(self):
         self.ax.set_xlabel('value: L in 3‰, C in 1‰, H in 1° steps')
         self.ax.set_ylabel('pixel count')
-        result = self.thread.thread_id
+        result = self.thread_pic.thread_id
         self.ax.set_title(result)
         print(result)
 
     def save(self, dir):
         if not os.path.isabs(dir):
             dir = './plots/' + dir
-        path = dir + '/plot_' + self.marker + '_' + self.thread.thread_id + '.png'
+        path = dir + '/plot_' + self.marker + '_' + self.thread_pic.thread_id + '.png'
         plt.savefig(path)
 
     def show(self):
         plt.show()
 
     def plot_lightness(self):
-        width = self.thread.oklch.upper_limit_lightness + 1
+        width = self.thread_pic.oklch.upper_limit_lightness + 1
         self.x = np.arange(width)
         self.fig, self.ax = plt.subplots()
         self.label_axes()
         yellow = Plot_Lines(self.x, self.ax, self.lightness_stats, 'y')
-        self.ax.legend((yellow.line, yellow.square, yellow.triangle, yellow.dot, yellow.dotted_vline_left),
-                  ('lightness', 'mode', 'median', 'mean', 'std dev'))
+        self.ax.legend((yellow.line, yellow.square, yellow.triangle, yellow.dot,
+                        yellow.dotted_vline_left, yellow.ref_vline),
+                  ('lightness', 'mode', 'median', 'mean',
+                   'std dev', 'reference'))
         self.marker = 'l'
 
     def plot_chroma(self):
-        width = self.thread.oklch.upper_limit_chroma + 1
+        width = self.thread_pic.oklch.upper_limit_chroma + 1
         self.x = np.arange(width)
         self.fig, self.ax = plt.subplots()
         self.label_axes()
         cyan = Plot_Lines(self.x, self.ax, self.chroma_stats, 'c')
-        self.ax.legend((cyan.line, cyan.square, cyan.triangle, cyan.dot, cyan.dotted_vline_left),
-                       ('chroma', 'mode', 'median', 'mean', 'std dev'))
+        self.ax.legend((cyan.line, cyan.square, cyan.triangle, cyan.dot,
+                        cyan.dotted_vline_left, cyan.ref_vline),
+                       ('chroma', 'mode', 'median', 'mean',
+                        'std dev', 'reference'))
         self.marker = 'c'
 
     def plot_hue(self):
-        width = self.thread.oklch.upper_limit_hue + 1
+        width = self.thread_pic.oklch.upper_limit_hue + 1
         self.x = np.arange(width)
         self.fig, self.ax = plt.subplots()
         self.label_axes()
         magenta = Plot_Lines(self.x, self.ax, self.hue_stats, 'm')
-        self.ax.legend((magenta.line, magenta.square, magenta.triangle, magenta.dot, magenta.dotted_vline_left),
-                       ('hue', 'mode', 'median', 'mean', 'std dev'))
+        self.ax.legend((magenta.line, magenta.square, magenta.triangle, magenta.dot,
+                        magenta.dotted_vline_left, magenta.ref_vline),
+                       ('hue', 'mode', 'median', 'mean',
+                        'std dev', 'reference'))
         self.marker = 'h'
 
     def plot_combo_lc(self):
         # When combining the functions, we correct for the differing domains. Chroma is the widest.
-        width = self.thread.oklch.upper_limit_chroma + 1
+        width = self.thread_pic.oklch.upper_limit_chroma + 1
         while len(self.lightness_stats.hist) < width:
             self.lightness_stats.hist.append(0)
         self.x = np.arange(width)
@@ -73,13 +87,15 @@ class OklchPlotter:
         self.label_axes()
         yellow = Plot_Lines(self.x, self.ax, self.lightness_stats, 'y')
         cyan = Plot_Lines(self.x, self.ax, self.chroma_stats, 'c')
-        self.ax.legend((yellow.line, cyan.line, cyan.square, cyan.triangle, cyan.dot, cyan.dotted_vline_left),
-                       ('lightness', 'chroma', 'mode', 'median', 'mean', 'std dev'))
+        self.ax.legend((yellow.line, cyan.line, cyan.square, cyan.triangle, cyan.dot,
+                        cyan.dotted_vline_left, cyan.ref_vline),
+                       ('lightness', 'chroma', 'mode', 'median', 'mean',
+                        'std dev', 'reference'))
         self.marker = 'lc'
 
     def plot_combo_lch(self):
         # When combining the functions, we correct for the differing domains. Chroma is the widest.
-        width = self.thread.oklch.upper_limit_chroma + 1
+        width = self.thread_pic.oklch.upper_limit_chroma + 1
         while len(self.lightness_stats.hist) < width:
             self.lightness_stats.hist.append(0)
         while len(self.hue_stats.hist) < width:
@@ -92,21 +108,22 @@ class OklchPlotter:
         magenta = Plot_Lines(self.x, self.ax, self.hue_stats, 'm')
         self.ax.legend((yellow.line, cyan.line, magenta.line,
                         magenta.square, magenta.triangle, magenta.dot,
-                        magenta.dotted_vline_left),
+                        magenta.dotted_vline_left, magenta.ref_vline),
                        ('lightness', 'chroma', 'hue',
                         'mode', 'median', 'mean',
-                        'std dev'))
+                        'std dev', 'reference'))
         self.marker = 'lch'
 
 
 class Plot_Stats:
-    def __init__(self, oklch: Histogram, mode: str):
+    def __init__(self, oklch: Histogram, reference, mode: str):
         if mode == 'l' or mode == 'c' or mode == 'h':
             self.mode = mode
         else:
             print('Invalid mode of Oklch Plotter Stats: ' + mode + ' - Needs to be either l, c or h.')
             return
         self.mode = mode
+        self.ref = reference
         if self.mode == 'l':
             self.hist = oklch.hist_lightness.copy()
             self.mode = oklch.mode_lightness
@@ -148,6 +165,7 @@ class Plot_Lines:
             return
         self.mode = mode
         if self.mode == 'y':
+            self.ref_vline = ax.axvline(stats.ref, color='gold', linestyle='--')
             self.line, = ax.plot(x, stats.hist, color='yellow')
             self.square, = ax.plot(stats.mode, stats.mode_val, marker='s', color='gold')
             self.triangle, = ax.plot(stats.median, stats.median_val, marker='v', color='gold')
@@ -155,6 +173,7 @@ class Plot_Lines:
             self.dotted_vline_left = ax.axvline(stats.stdev_left, color='yellow', linestyle=':')
             self.dotted_vline_right = ax.axvline(stats.stdev_right, color='yellow', linestyle=':')
         if self.mode == 'c':
+            self.ref_vline = ax.axvline(stats.ref, color='chartreuse', linestyle='--')
             self.line, = ax.plot(x, stats.hist, color='cyan')
             self.square, = ax.plot(stats.mode, stats.mode_val, marker='s', color='chartreuse')
             self.triangle, = ax.plot(stats.median, stats.median_val, marker='v', color='chartreuse')
@@ -162,6 +181,7 @@ class Plot_Lines:
             self.dotted_vline_left = ax.axvline(stats.stdev_left, color='cyan', linestyle=':')
             self.dotted_vline_right = ax.axvline(stats.stdev_right, color='cyan', linestyle=':')
         if self.mode == 'm':
+            self.ref_vline = ax.axvline(stats.ref, color='crimson', linestyle='--')
             self.line, = ax.plot(x, stats.hist, color='magenta')
             self.square, = ax.plot(stats.mode, stats.mode_val, marker='s', color='crimson')
             self.triangle, = ax.plot(stats.median, stats.median_val, marker='v', color='crimson')
