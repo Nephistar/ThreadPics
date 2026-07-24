@@ -71,7 +71,7 @@ class Histogram:
         # In this special usecase, all values will be within a small interval.
         # Therefore, we can just work with an offset of 180 to avoid clipping over the edge.
         self.mode_hue = statistics.mode(self.data_hue)
-        if self.mode_hue < 180 or self.mode_hue >= 270:
+        if self.mode_hue < 90 or self.mode_hue >= 270:
             data_hue_off = []
             for hue in self.data_hue:
                 hue_off = (hue + 180) % 360
@@ -83,7 +83,7 @@ class Histogram:
             stdev_right_hue_off = mean_hue_off + standard_deviation_hue_off
             self.median_hue = (median_hue_off + 180) % 360
             self.mean_hue = (mean_hue_off + 180) % 360
-            self.standard_deviation_hue = (standard_deviation_hue_off + 180) % 360
+            self.standard_deviation_hue = standard_deviation_hue_off
             self.stdev_left_hue = (stdev_left_hue_off + 180) % 360
             self.stdev_right_hue = (stdev_right_hue_off + 180) % 360
         else:
