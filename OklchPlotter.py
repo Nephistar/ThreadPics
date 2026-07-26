@@ -116,39 +116,42 @@ class OklchPlotter:
 
 
 class Plot_Stats:
-    def __init__(self, oklch: Histogram, reference, mode: str):
-        if mode == 'l' or mode == 'c' or mode == 'h':
-            self.mode = mode
+    def __init__(self, oklch: Histogram, reference, switch: str):
+        if switch == 'l' or switch == 'c' or switch == 'h':
+            self.switch = switch
         else:
-            print('Invalid mode of Oklch Plotter Stats: ' + mode + ' - Needs to be either l, c or h.')
+            print('Invalid switch mode of Oklch Plotter Stats: ' + switch + ' - Needs to be either l, c or h.')
             return
-        self.mode = mode
+        self.switch = switch
         self.ref = reference
-        if self.mode == 'l':
+        if self.switch == 'l':
             self.hist = oklch.hist_lightness.copy()
             self.mode = oklch.mode_lightness
             self.median = oklch.median_lightness
             self.mean = oklch.mean_lightness
+            self.stdev = oklch.standard_deviation_lightness
             self.stdev_left = oklch.stdev_left_lightness
             self.stdev_right = oklch.stdev_right_lightness
             self.mode_val = oklch.mode_lightness_val
             self.median_val = oklch.median_lightness_val
             self.mean_val = oklch.mean_lightness_val
-        elif self.mode == 'c':
+        elif self.switch == 'c':
             self.hist = oklch.hist_chroma.copy()
             self.mode = oklch.mode_chroma
             self.median = oklch.median_chroma
             self.mean = oklch.mean_chroma
+            self.stdev = oklch.standard_deviation_chroma
             self.stdev_left = oklch.stdev_left_chroma
             self.stdev_right = oklch.stdev_right_chroma
             self.mode_val = oklch.mode_chroma_val
             self.median_val = oklch.median_chroma_val
             self.mean_val = oklch.mean_chroma_val
-        elif self.mode == 'h':
+        elif self.switch == 'h':
             self.hist = oklch.hist_hue.copy()
             self.mode = oklch.mode_hue
             self.median = oklch.median_hue
             self.mean = oklch.mean_hue
+            self.stdev = oklch.standard_deviation_hue
             self.stdev_left = oklch.stdev_left_hue
             self.stdev_right = oklch.stdev_right_hue
             self.mode_val = oklch.mode_hue_val
