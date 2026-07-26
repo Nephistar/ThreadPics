@@ -1,6 +1,7 @@
 # ThreadPics custom
 pics/*
 plots/*
+tables/*
 sandbox.py
 
 # Byte-compiled / optimized / DLL files
