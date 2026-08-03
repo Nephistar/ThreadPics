@@ -36,7 +36,7 @@ class RgbPlotter:
         self.mode_blue = self.hist_blue.index(self.mode_blue_val)
 
     def save(self, dir):
-        path = './' + dir + '/plot_' + self.thread.thread_id + '.png'
+        path = dir + 'plot_' + self.thread.thread_id + '.png'
         plt.savefig(path)
 
     def show(self):

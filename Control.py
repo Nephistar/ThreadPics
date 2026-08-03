@@ -8,6 +8,7 @@ class Control:
         self.example_mode = bool(args.get('--example'))
         self.ref_file = './tables/reference.csv'
         self.img_dir = './pics/'
+        self.plot_dir = './plots/'
         self.stats_file = './tables/stats.csv'
         self.lookup = None
         self.card = None
@@ -29,7 +30,7 @@ class Control:
         reference = self.lookup[thread_pic.thread_id]
         plotter = OklchPlotter(thread_pic, reference)
         plotter.plot_combo_lch()
-        plotter.save('')
+        plotter.save(self.plot_dir)
         csv_lines.append(Writer.get_stats_csv_line(plotter))
         Writer.save_stats_csv(csv_lines, self.stats_file)
         plotter.show()
@@ -43,7 +44,7 @@ class Control:
             reference = self.lookup[thread_pic.thread_id]
             plotter = OklchPlotter(thread_pic, reference)
             plotter.plot_combo_lch()
-            plotter.save('')
+            plotter.save(self.plot_dir)
             csv_lines.append(Writer.get_stats_csv_line(plotter))
         Writer.save_stats_csv(csv_lines, self.stats_file)
 

@@ -1,4 +1,3 @@
-import os
 from matplotlib import pyplot as plt
 import numpy as np
 
@@ -33,9 +32,7 @@ class OklchPlotter:
         print(result)
 
     def save(self, dir):
-        if not os.path.isabs(dir):
-            dir = './plots/' + dir
-        path = dir + '/plot_' + self.marker + '_' + self.thread_pic.thread_id + '.png'
+        path = dir + 'plot_' + self.marker + '_' + self.thread_pic.thread_id + '.png'
         plt.savefig(path)
 
     def show(self):
