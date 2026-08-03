@@ -3,10 +3,12 @@ ThreadPics
 https://github.com/Nephistar/ThreadPics
 License: GPL-3.0
 Usage:
-    main.py example
+    main.py
+    main.py --example
     main.py (-h | --help)
 Options:
-    -h --help     Show this screen.
+    --example       Run basic functionality with example files.
+    -h --help       Show this screen.
 """
 
 

@@ -5,26 +5,47 @@ import Writer
 
 class Control:
     def __init__(self, args: dict):
-        self.args = args
+        self.example_mode = bool(args.get('--example'))
+        self.ref_file = 'reference.csv'
+        self.img_folder = 'pics'
+        self.stats_file = 'stats.csv'
+        self.lookup = None
+        self.card = None
         self.run()
 
     def run(self):
-        if self.args.get('example'):
-            self.example()
+        if self.example_mode:
+            self.ref_file = 'lord_libidan_hexcodes.csv'
+            self.stats_file = 'stats_666.csv'
+            self.run_example()
+        else:
+            self.process_folder()
 
-    def example(self):
-        card = ColorCard(img_format='png')
-        thread_pic = card.create_thread_pic('666')
-        lookup_file = 'lord_libidan_hexcodes.csv'
-        lookup = Reader.create_oklch_dict_from_hexcodes(lookup_file)
-        reference = lookup[thread_pic.thread_id]
+    def run_example(self):
+        self.lookup = Reader.create_oklch_dict_from_hexcodes(self.ref_file)
+        self.card = ColorCard()
+        thread_pic = self.card.create_thread_pic('666')
         csv_lines = [Writer.get_stats_csv_header()]
+        reference = self.lookup[thread_pic.thread_id]
         plotter = OklchPlotter(thread_pic, reference)
-        csv_lines.append(Writer.get_stats_csv_line(plotter))
-        Writer.save_stats_csv(csv_lines, 'stats_666.csv')
         plotter.plot_combo_lch()
         plotter.save('')
+        csv_lines.append(Writer.get_stats_csv_line(plotter))
+        Writer.save_stats_csv(csv_lines, self.stats_file)
         plotter.show()
+
+    def process_folder(self):
+        self.lookup = Reader.create_oklch_dict_from_hexcodes(self.ref_file)
+        self.card = ColorCard()
+        threads_pics = self.card.create_all_thread_pics()
+        csv_lines = [Writer.get_stats_csv_header()]
+        for thread_pic in threads_pics:
+            reference = self.lookup[thread_pic.thread_id]
+            plotter = OklchPlotter(thread_pic, reference)
+            plotter.plot_combo_lch()
+            plotter.save('')
+            csv_lines.append(Writer.get_stats_csv_line(plotter))
+        Writer.save_stats_csv(csv_lines, self.stats_file)
 
 
 
