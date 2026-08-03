@@ -62,7 +62,7 @@ def get_stats_csv_line(thread: OklchPlotter):
     return line
 
 def save_stats_csv(csv_lines: list[str], filename: str):
-    with open('./tables/' + filename, 'w') as file:
+    with open(filename, 'w') as file:
         file.writelines(csv_lines)
 
 

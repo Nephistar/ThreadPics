@@ -1,4 +1,3 @@
-import os
 import csv
 from OklchConverter import Datum
 
@@ -24,8 +23,6 @@ def _parse_hexcode_to_rgb(hexcode: str):
     return rgb
 
 def create_oklch_dict_from_hexcodes(filename: str):
-    if not os.path.isabs(filename):
-        filename = './tables/' + filename
     table = _read_csv(filename)
     ids = _get_column(table, 0)
     hexcodes = _get_column(table, 1)

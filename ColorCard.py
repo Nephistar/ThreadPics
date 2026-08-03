@@ -4,8 +4,8 @@ from ThreadPic import ThreadPic
 
 
 class ColorCard:
-    def __init__(self, dir: str= 'pics', img_format: str= 'png', size_limit: int=50000):
-        self.dir_path = './' + dir + '/'
+    def __init__(self, dir: str, img_format: str= 'png', size_limit: int=50000):
+        self.dir_path = dir
         self.img_format = img_format
         self.size_limit = size_limit
         self.thread_pics = []

@@ -6,24 +6,24 @@ import Writer
 class Control:
     def __init__(self, args: dict):
         self.example_mode = bool(args.get('--example'))
-        self.ref_file = 'reference.csv'
-        self.img_folder = 'pics'
-        self.stats_file = 'stats.csv'
+        self.ref_file = './tables/reference.csv'
+        self.img_dir = './pics/'
+        self.stats_file = './tables/stats.csv'
         self.lookup = None
         self.card = None
         self.run()
 
     def run(self):
         if self.example_mode:
-            self.ref_file = 'lord_libidan_hexcodes.csv'
-            self.stats_file = 'stats_666.csv'
+            self.ref_file = './tables/lord_libidan_hexcodes.csv'
+            self.stats_file = './tables/stats_666.csv'
             self.run_example()
         else:
-            self.process_folder()
+            self.process_dir()
 
     def run_example(self):
         self.lookup = Reader.create_oklch_dict_from_hexcodes(self.ref_file)
-        self.card = ColorCard()
+        self.card = ColorCard(self.img_dir)
         thread_pic = self.card.create_thread_pic('666')
         csv_lines = [Writer.get_stats_csv_header()]
         reference = self.lookup[thread_pic.thread_id]
@@ -34,9 +34,9 @@ class Control:
         Writer.save_stats_csv(csv_lines, self.stats_file)
         plotter.show()
 
-    def process_folder(self):
+    def process_dir(self):
         self.lookup = Reader.create_oklch_dict_from_hexcodes(self.ref_file)
-        self.card = ColorCard()
+        self.card = ColorCard(self.img_dir)
         threads_pics = self.card.create_all_thread_pics()
         csv_lines = [Writer.get_stats_csv_header()]
         for thread_pic in threads_pics:
