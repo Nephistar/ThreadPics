@@ -16,24 +16,11 @@ class Control:
 
     def run(self):
         if self.example_mode:
-            self.ref_file = './tables/lord_libidan_hexcodes.csv'
-            self.stats_file = './tables/stats_666.csv'
-            self.run_example()
-        else:
-            self.process_dir()
-
-    def run_example(self):
-        self.lookup = Reader.create_oklch_dict_from_hexcodes(self.ref_file)
-        self.card = ColorCard(self.img_dir)
-        thread_pic = self.card.create_thread_pic('666')
-        csv_lines = [Writer.get_stats_csv_header()]
-        reference = self.lookup[thread_pic.thread_id]
-        plotter = OklchPlotter(thread_pic, reference)
-        plotter.plot_combo_lch()
-        plotter.save(self.plot_dir)
-        csv_lines.append(Writer.get_stats_csv_line(plotter))
-        Writer.save_stats_csv(csv_lines, self.stats_file)
-        plotter.show()
+            self.ref_file = './example/tables/lord_libidan_hexcodes.csv'
+            self.img_dir = './example/pics/'
+            self.plot_dir = './example/plots/'
+            self.stats_file = './example/tables/stats.csv'
+        self.process_dir()
 
     def process_dir(self):
         self.lookup = Reader.create_oklch_dict_from_hexcodes(self.ref_file)
