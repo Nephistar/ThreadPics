@@ -38,6 +38,9 @@ class OklchPlotter:
     def show(self):
         plt.show()
 
+    def close(self):
+        plt.close()
+
     def plot_lightness(self):
         width = self.thread_pic.oklch.upper_limit_lightness + 1
         self.x = np.arange(width)

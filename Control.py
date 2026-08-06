@@ -29,6 +29,7 @@ class Control:
             plotter = OklchPlotter(thread_pic, reference)
             plotter.plot_combo_lch()
             plotter.save(self.plot_dir)
+            plotter.close()
             csv_lines.append(Writer.get_stats_csv_line(plotter))
         Writer.save_stats_csv(csv_lines, self.stats_file)
 
