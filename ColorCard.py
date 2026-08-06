@@ -8,13 +8,14 @@ class ColorCard:
         self.dir_path = dir
         self.size_limit = size_limit
         self.thread_pics = []
+        self._create_all_thread_pics()
 
     def _create_thread_pic(self, thread_id: str, img_path: str) -> ThreadPic:
         thread_pic = ThreadPic(thread_id, img_path)
         self.thread_pics.append(thread_pic)
         return thread_pic
 
-    def create_all_thread_pics(self):
+    def _create_all_thread_pics(self):
         thread_pics = []
         for file in os.listdir(self.dir_path):
             path = os.path.join(self.dir_path, file)

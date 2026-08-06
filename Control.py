@@ -22,9 +22,8 @@ class Control:
     def process_dir(self):
         self.lookup = Reader.create_oklch_dict_from_hexcodes(self.ref_file)
         self.card = ColorCard(self.img_dir)
-        threads_pics = self.card.create_all_thread_pics()
         csv_lines = [Writer.get_stats_csv_header()]
-        for thread_pic in threads_pics:
+        for thread_pic in self.card.thread_pics:
             reference = self.lookup[thread_pic.thread_id]
             plotter = OklchPlotter(thread_pic, reference)
             plotter.plot_combo_lch()
