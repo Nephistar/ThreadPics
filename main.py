@@ -20,10 +20,14 @@ if __name__ == '__main__':
     args = docopt(__doc__)
 
     # default paths
-    args['<ref_file>'] = './tables/reference.csv'
-    args['<img_dir>'] = './pics/'
-    args['<stats_file>'] = './tables/stats.csv'
-    args['<plot_dir>'] = './plots/'
+    if args['<ref_file>'] is None:
+        args['<ref_file>'] = './tables/reference.csv'
+    if args['<img_dir>'] is None:
+        args['<img_dir>'] = './pics/'
+    if args['<stats_file>'] is None:
+        args['<stats_file>'] = './tables/stats.csv'
+    if args['<plot_dir>'] is None:
+        args['<plot_dir>'] = './plots/'
 
     # example paths
     if args['--example']:
