@@ -5,21 +5,18 @@ import Writer
 
 class Control:
     def __init__(self, args: dict):
-        self.example_mode = bool(args.get('--example'))
-        self.ref_file = './tables/reference.csv'
-        self.img_dir = './pics/'
-        self.plot_dir = './plots/'
-        self.stats_file = './tables/stats.csv'
+        self.example_mode = args['--example']
+        self.ref_file = args['<ref_file>']
+        self.img_dir = args['<img_dir>']
+        self.stats_file = args['<stats_file>']
+        self.plot_dir = args['<plot_dir>']
         self.lookup = None
         self.card = None
         self.run()
 
     def run(self):
         if self.example_mode:
-            self.ref_file = './example/tables/lord_libidan_hexcodes.csv'
-            self.img_dir = './example/pics/'
-            self.plot_dir = './example/plots/'
-            self.stats_file = './example/tables/stats.csv'
+            pass # todo: set show True
         self.process_dir()
 
     def process_dir(self):
