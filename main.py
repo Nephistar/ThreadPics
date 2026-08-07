@@ -4,11 +4,12 @@ https://github.com/Nephistar/ThreadPics
 License: GPL-3.0
 Usage:
     main.py [<ref_file> <img_dir> <stats_file>]
-    main.py --plot [<ref_file> <img_dir> <stats_file> <plot_dir>]
+    main.py --plot [--show <ref_file> <img_dir> <stats_file> <plot_dir>]
     main.py --example
     main.py (-h | --help)
 Options:
     --plot          Also draw plots of the results. (Statistics file will be saved anyway.)
+    --show          Show the plot(s) of the first thread after saving.
     --example       Run basic functionality with example files.
     -h --help       Show this screen.
 """
