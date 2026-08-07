@@ -19,7 +19,10 @@ class ColorCard:
             path = os.path.join(self.dir_path, file)
             if os.path.isfile(path):
                 thread_id = file[:file.rfind('.')]
-                if os.path.getsize(path) <= self.size_limit:
+                if os.path.getsize(path) > self.size_limit:
+                    print('The following file is over the size limit of '
+                          + str(self.size_limit) + ' B and got skipped: ' + path)
+                else:
                     thread_pic = self._create_thread_pic(thread_id, path)
                     self.thread_pics.append(thread_pic)
         return self.thread_pics
