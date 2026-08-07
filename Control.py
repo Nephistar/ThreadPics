@@ -5,6 +5,7 @@ import Writer
 
 class Control:
     def __init__(self, args: dict):
+        self.plot_mode = args['--plot']
         self.example_mode = args['--example']
         self.ref_file = args['<ref_file>']
         self.img_dir = args['<img_dir>']
@@ -16,7 +17,8 @@ class Control:
 
     def run(self):
         if self.example_mode:
-            pass # todo: set show True
+            self.plot_mode = True
+            # todo: set show True
         self.process_dir()
 
     def process_dir(self):
@@ -26,11 +28,13 @@ class Control:
         for thread_pic in self.card.thread_pics:
             reference = self.lookup[thread_pic.thread_id]
             plotter = OklchPlotter(thread_pic, reference)
-            plotter.plot_combo_lch()
-            plotter.save(self.plot_dir)
-            plotter.close()
+            if self.plot_mode:
+                self.plot(plotter)
             csv_lines.append(Writer.get_stats_csv_line(plotter))
         Writer.save_stats_csv(csv_lines, self.stats_file)
 
-
+    def plot(self, plotter: OklchPlotter):
+        plotter.plot_combo_lch()
+        plotter.save(self.plot_dir)
+        plotter.close()
 
