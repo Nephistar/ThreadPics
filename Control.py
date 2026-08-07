@@ -7,6 +7,8 @@ class Control:
     def __init__(self, args: dict):
         self.plot_mode = bool(args['--plot'])
         self.show_mode = bool(args['--show'])
+        self.hue_flag = bool(args['--hue'])
+        self.lc_flag = bool(args['--lc'])
         self.example_mode = bool(args['--example'])
         self.ref_file = args['<ref_file>']
         self.img_dir = args['<img_dir>']
@@ -38,6 +40,14 @@ class Control:
         Writer.save_stats_csv(csv_lines, self.stats_file)
 
     def plot(self, plotter: OklchPlotter, show_flag: bool):
+        # Note: Hue plot has to come before the combined ones. This is a quickfix for a potential bug
+        # with aranging the width. It works fine when done in order from narrowest to widest.
+        if self.hue_flag:
+            plotter.plot_hue()
+            plotter.save(self.plot_dir)
+        if self.lc_flag:
+            plotter.plot_combo_lc()
+            plotter.save(self.plot_dir)
         plotter.plot_combo_lch()
         plotter.save(self.plot_dir)
         if show_flag:
