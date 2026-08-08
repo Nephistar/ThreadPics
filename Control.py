@@ -27,6 +27,7 @@ class Control:
     def process_dir(self):
         self.lookup = Reader.create_oklch_dict_from_hexcodes(self.ref_file)
         self.card = ColorCard(self.img_dir)
+        lch_y_top = int(self.card.pixel_max / 10)
         csv_lines = [Writer.get_stats_csv_header()]
         first_flag = True
         for thread_pic in self.card.thread_pics:
@@ -34,12 +35,12 @@ class Control:
             plotter = OklchPlotter(thread_pic, reference)
             show_flag = first_flag and self.show_mode
             if self.plot_mode:
-                self.plot(plotter, show_flag)
+                self.plot(plotter, show_flag, lch_y_top)
             first_flag = False
             csv_lines.append(Writer.get_stats_csv_line(plotter))
         Writer.save_stats_csv(csv_lines, self.stats_file)
 
-    def plot(self, plotter: OklchPlotter, show_flag: bool):
+    def plot(self, plotter: OklchPlotter, show_flag: bool, lch_y_top: int):
         # Note: Hue plot has to come before the combined ones. This is a quickfix for a potential bug
         # with aranging the width. It works fine when done in order from narrowest to widest.
         if self.hue_flag:
@@ -48,7 +49,7 @@ class Control:
         if self.lc_flag:
             plotter.plot_combo_lc()
             plotter.save(self.plot_dir)
-        plotter.plot_combo_lch()
+        plotter.plot_combo_lch(lch_y_top)
         plotter.save(self.plot_dir)
         if show_flag:
             plotter.show()

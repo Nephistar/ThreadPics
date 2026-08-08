@@ -93,7 +93,7 @@ class OklchPlotter:
                         'std dev', 'reference'))
         self.marker = 'lc'
 
-    def plot_combo_lch(self):
+    def plot_combo_lch(self, y_top: int):
         # When combining the functions, we correct for the differing domains. Chroma is the widest.
         width = self.thread_pic.oklch.upper_limit_chroma + 1
         while len(self.lightness_stats.hist) < width:
@@ -102,6 +102,7 @@ class OklchPlotter:
             self.hue_stats.hist.append(0)
         self.x = np.arange(width)
         self.fig, self.ax = plt.subplots()
+        self.ax.set_ylim(top=y_top)
         self.label_axes()
         yellow = Plot_Lines(self.x, self.ax, self.lightness_stats, 'y')
         cyan = Plot_Lines(self.x, self.ax, self.chroma_stats, 'c')

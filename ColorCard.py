@@ -8,6 +8,7 @@ class ColorCard:
         self.dir_path = dir
         self.size_limit = size_limit
         self.thread_pics = []
+        self.pixel_max = 0
         self._create_all_thread_pics()
 
     def _create_thread_pic(self, thread_id: str, img_path: str) -> ThreadPic:
@@ -25,5 +26,7 @@ class ColorCard:
                 else:
                     thread_pic = self._create_thread_pic(thread_id, path)
                     self.thread_pics.append(thread_pic)
+                    if len(thread_pic.pixels) > self.pixel_max:
+                        self.pixel_max = len(thread_pic.pixels)
         return self.thread_pics
 

@@ -9,9 +9,11 @@ Usage:
     main.py (-h | --help)
 Options:
     --plot          Also draw plots of the results. (Statistics file will be saved anyway.)
+                    Default is combined Oklch plots drawn in a standard window for better comparison.
+                    The top bound of the y-axis may be below the maximum, so peaks may be cut off.
     --show          Show the plot(s) of the first thread after saving.
-    --hue           Also draw plots for hue only.
-    --lc            Also draw combined plots for lightness and chroma, without hue.
+    --hue           Also draw plots for hue only. Window is set dynamically.
+    --lc            Also draw combined plots for lightness and chroma, without hue. Window is set dynamically.
     --example       Run basic functionality with example files.
     -h --help       Show this screen.
 """
