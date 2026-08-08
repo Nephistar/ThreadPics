@@ -8,13 +8,13 @@ Usage:
     main.py --example
     main.py (-h | --help)
 Options:
-    --plot          Also draw plots of the results. (Statistics file will be saved anyway.)
-                    Default is combined Oklch plots drawn in a standard window for better comparison.
+    --plot          Also plot histograms of the results. (Statistics file will be saved anyway.)
+                    Default is combined Oklch histograms drawn in a standard window for better comparison.
                     The top bound of the y-axis may be below the maximum, so peaks may be cut off.
-    --show          Show the plot(s) of the first thread after saving.
-    --hue           Also draw plots for hue only. Window is set dynamically.
-    --lc            Also draw combined plots for lightness and chroma, without hue. Window is set dynamically.
-    --set_window    Define an integer number as a custom top bound of the y-axis in the combined Oklch plots.
+    --show          Show the histogram(s) of the first thread after saving.
+    --hue           Also draw histograms for hue only. Windows are set dynamically.
+    --lc            Also draw combined histograms for lightness and chroma, without hue. Windows are set dynamically.
+    --set_window    Define an integer number as a custom top bound of the y-axis in the combined Oklch histograms.
     --example       Run basic functionality with example files.
     -h --help       Show this screen.
 """
