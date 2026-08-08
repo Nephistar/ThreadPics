@@ -32,7 +32,7 @@ class OklchPlotter:
         print(result)
 
     def save(self, dir):
-        path = dir + 'plot_' + self.marker + '_' + self.thread_pic.thread_id + '.png'
+        path = dir + 'plot_' + self.thread_pic.thread_id + '_' + self.marker + '.png'
         plt.savefig(path)
 
     def show(self):
