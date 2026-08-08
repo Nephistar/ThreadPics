@@ -60,4 +60,6 @@ class Control:
             plotter.show()
         else:
             plotter.close()
+            plotter.close()
+            plotter.close()
 
