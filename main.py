@@ -4,7 +4,7 @@ https://github.com/Nephistar/ThreadPics
 License: GPL-3.0
 Usage:
     main.py [<ref_file> <img_dir> <stats_file>]
-    main.py --plot [--show --hue --lc <ref_file> <img_dir> <stats_file> <plot_dir>]
+    main.py --plot [--show --hue --lc (--set_window <lch_y_top>) <ref_file> <img_dir> <stats_file> <plot_dir>]
     main.py --example
     main.py (-h | --help)
 Options:
@@ -14,6 +14,7 @@ Options:
     --show          Show the plot(s) of the first thread after saving.
     --hue           Also draw plots for hue only. Window is set dynamically.
     --lc            Also draw combined plots for lightness and chroma, without hue. Window is set dynamically.
+    --set_window    Define an integer number as a custom top bound of the y-axis in the combined Oklch plots.
     --example       Run basic functionality with example files.
     -h --help       Show this screen.
 """

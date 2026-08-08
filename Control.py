@@ -9,7 +9,9 @@ class Control:
         self.show_mode = bool(args['--show'])
         self.hue_flag = bool(args['--hue'])
         self.lc_flag = bool(args['--lc'])
+        self.set_window = bool(args['--set_window'])
         self.example_mode = bool(args['--example'])
+        self.lch_y_top = args['<lch_y_top>']
         self.ref_file = args['<ref_file>']
         self.img_dir = args['<img_dir>']
         self.stats_file = args['<stats_file>']
@@ -27,7 +29,10 @@ class Control:
     def process_dir(self):
         self.lookup = Reader.create_oklch_dict_from_hexcodes(self.ref_file)
         self.card = ColorCard(self.img_dir)
-        lch_y_top = int(self.card.pixel_max / 10)
+        if self.set_window:
+            self.lch_y_top = int(self.lch_y_top)
+        else:
+            self.lch_y_top = int(self.card.pixel_max / 10)
         csv_lines = [Writer.get_stats_csv_header()]
         first_flag = True
         for thread_pic in self.card.thread_pics:
@@ -35,7 +40,7 @@ class Control:
             plotter = OklchPlotter(thread_pic, reference)
             show_flag = first_flag and self.show_mode
             if self.plot_mode:
-                self.plot(plotter, show_flag, lch_y_top)
+                self.plot(plotter, show_flag, self.lch_y_top)
             first_flag = False
             csv_lines.append(Writer.get_stats_csv_line(plotter))
         Writer.save_stats_csv(csv_lines, self.stats_file)
