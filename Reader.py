@@ -31,3 +31,10 @@ def create_oklch_dict_from_hexcodes(filename: str):
     lookup = _create_lookup(ids, oklchs)
     return lookup
 
+def create_url_dict(filename: str):
+    table = _read_csv(filename)
+    ids = _get_column(table, 0)
+    urls = _get_column(table, 1)
+    lookup = _create_lookup(ids, urls)
+    return lookup
+

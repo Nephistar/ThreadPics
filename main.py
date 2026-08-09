@@ -3,11 +3,13 @@ ThreadPics
 https://github.com/Nephistar/ThreadPics
 License: GPL-3.0
 Usage:
+    main.py --fetch [<url_file> <save_dir>]
     main.py [<ref_file> <img_dir> <stats_file>]
     main.py --plot [--show --hue --lc (--set_window <lch_y_top>) <ref_file> <img_dir> <stats_file> <plot_dir>]
     main.py --example
     main.py (-h | --help)
 Options:
+    --fetch         Fetch DMC reference pictures from urls in provided CSV file and exit.
     --plot          Also plot histograms of the results. (Statistics file will be saved anyway.)
                     Default is combined Oklch histograms drawn in a standard window for better comparison.
                     The top bound of the y-axis may be below the maximum, so peaks may be cut off.
@@ -28,6 +30,10 @@ if __name__ == '__main__':
     args = docopt(__doc__)
 
     # default paths
+    if args['<url_file>'] is None:
+        args['<url_file>'] = './tables/DMC_urls_482.csv'
+    if args['<save_dir>'] is None:
+        args['<save_dir>'] = './pics/'
     if args['<ref_file>'] is None:
         args['<ref_file>'] = './tables/reference.csv'
     if args['<img_dir>'] is None:

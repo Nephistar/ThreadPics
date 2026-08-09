@@ -1,16 +1,20 @@
 from ColorCard import ColorCard
 from OklchPlotter import OklchPlotter
+import PicFetcher
 import Reader
 import Writer
 
 class Control:
     def __init__(self, args: dict):
+        self.fetch_mode = bool(args['--fetch'])
         self.plot_mode = bool(args['--plot'])
         self.show_mode = bool(args['--show'])
         self.hue_flag = bool(args['--hue'])
         self.lc_flag = bool(args['--lc'])
         self.set_window = bool(args['--set_window'])
         self.example_mode = bool(args['--example'])
+        self.url_file = args['<url_file>']
+        self.save_dir = args['<save_dir>']
         self.lch_y_top = args['<lch_y_top>']
         self.ref_file = args['<ref_file>']
         self.img_dir = args['<img_dir>']
@@ -21,10 +25,13 @@ class Control:
         self.run()
 
     def run(self):
-        if self.example_mode:
-            self.plot_mode = True
-            self.show_mode = True
-        self.process_dir()
+        if self.fetch_mode:
+           PicFetcher.fetch(self.url_file, self.save_dir)
+        else:
+            if self.example_mode:
+                self.plot_mode = True
+                self.show_mode = True
+            self.process_dir()
 
     def process_dir(self):
         self.lookup = Reader.create_oklch_dict_from_hexcodes(self.ref_file)
