@@ -2,6 +2,7 @@
 pics/*
 plots/*
 tables/*
+sandbox/*
 sandbox.py
 
 # Byte-compiled / optimized / DLL files
