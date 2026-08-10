@@ -47,9 +47,9 @@ class OklchPlotter:
         self.fig, self.ax = plt.subplots()
         self.label_axes()
         yellow = Plot_Lines(self.x, self.ax, self.lightness_stats, 'y')
-        self.ax.legend((yellow.line, yellow.square, yellow.triangle, yellow.dot,
+        self.ax.legend((yellow.line, yellow.triangle, yellow.dot,
                         yellow.dotted_vline_left, yellow.ref_vline),
-                  ('lightness', 'mode', 'median', 'mean',
+                  ('lightness', 'median', 'mean',
                    'std dev', 'reference'))
         self.marker = 'l'
 
@@ -59,9 +59,9 @@ class OklchPlotter:
         self.fig, self.ax = plt.subplots()
         self.label_axes()
         cyan = Plot_Lines(self.x, self.ax, self.chroma_stats, 'c')
-        self.ax.legend((cyan.line, cyan.square, cyan.triangle, cyan.dot,
+        self.ax.legend((cyan.line, cyan.triangle, cyan.dot,
                         cyan.dotted_vline_left, cyan.ref_vline),
-                       ('chroma', 'mode', 'median', 'mean',
+                       ('chroma', 'median', 'mean',
                         'std dev', 'reference'))
         self.marker = 'c'
 
@@ -71,9 +71,9 @@ class OklchPlotter:
         self.fig, self.ax = plt.subplots()
         self.label_axes()
         magenta = Plot_Lines(self.x, self.ax, self.hue_stats, 'm')
-        self.ax.legend((magenta.line, magenta.square, magenta.triangle, magenta.dot,
+        self.ax.legend((magenta.line, magenta.triangle, magenta.dot,
                         magenta.dotted_vline_left, magenta.ref_vline),
-                       ('hue', 'mode', 'median', 'mean',
+                       ('hue', 'median', 'mean',
                         'std dev', 'reference'))
         self.marker = 'h'
 
@@ -87,9 +87,9 @@ class OklchPlotter:
         self.label_axes()
         cyan = Plot_Lines(self.x, self.ax, self.chroma_stats, 'c')
         yellow = Plot_Lines(self.x, self.ax, self.lightness_stats, 'y')
-        self.ax.legend((yellow.line, cyan.line, cyan.square, cyan.triangle, cyan.dot,
+        self.ax.legend((yellow.line, cyan.line, cyan.triangle, cyan.dot,
                         cyan.dotted_vline_left, cyan.ref_vline),
-                       ('lightness', 'chroma', 'mode', 'median', 'mean',
+                       ('lightness', 'chroma', 'median', 'mean',
                         'std dev', 'reference'))
         self.marker = 'lc'
 
@@ -108,10 +108,10 @@ class OklchPlotter:
         cyan = Plot_Lines(self.x, self.ax, self.chroma_stats, 'c')
         yellow = Plot_Lines(self.x, self.ax, self.lightness_stats, 'y')
         self.ax.legend((yellow.line, cyan.line, magenta.line,
-                        magenta.square, magenta.triangle, magenta.dot,
+                        magenta.triangle, magenta.dot,
                         magenta.dotted_vline_left, magenta.ref_vline),
                        ('lightness', 'chroma', 'hue',
-                        'mode', 'median', 'mean',
+                        'median', 'mean',
                         'std dev', 'reference'))
         self.marker = 'lch'
 
@@ -171,7 +171,6 @@ class Plot_Lines:
         if self.mode == 'y':
             self.ref_vline = ax.axvline(stats.ref, color='gold', linestyle='--')
             self.line, = ax.plot(x, stats.hist, color='yellow')
-            self.square, = ax.plot(stats.mode, stats.mode_val, marker='s', color='gold')
             self.triangle, = ax.plot(stats.median, stats.median_val, marker='v', color='gold')
             self.dot, = ax.plot(stats.mean, stats.mean_val, marker='o', color='gold')
             self.dotted_vline_left = ax.axvline(stats.stdev_left, color='yellow', linestyle=':')
@@ -179,7 +178,6 @@ class Plot_Lines:
         if self.mode == 'c':
             self.ref_vline = ax.axvline(stats.ref, color='chartreuse', linestyle='--')
             self.line, = ax.plot(x, stats.hist, color='cyan')
-            self.square, = ax.plot(stats.mode, stats.mode_val, marker='s', color='chartreuse')
             self.triangle, = ax.plot(stats.median, stats.median_val, marker='v', color='chartreuse')
             self.dot, = ax.plot(stats.mean, stats.mean_val, marker='o', color='chartreuse')
             self.dotted_vline_left = ax.axvline(stats.stdev_left, color='cyan', linestyle=':')
@@ -187,7 +185,6 @@ class Plot_Lines:
         if self.mode == 'm':
             self.ref_vline = ax.axvline(stats.ref, color='crimson', linestyle='--')
             self.line, = ax.plot(x, stats.hist, color='magenta')
-            self.square, = ax.plot(stats.mode, stats.mode_val, marker='s', color='crimson')
             self.triangle, = ax.plot(stats.median, stats.median_val, marker='v', color='crimson')
             self.dot, = ax.plot(stats.mean, stats.mean_val, marker='o', color='crimson')
             self.dotted_vline_left = ax.axvline(stats.stdev_left, color='magenta', linestyle=':')
