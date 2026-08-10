@@ -6,7 +6,7 @@ Usage:
     main.py --fetch [<url_file> <save_dir>]
     main.py [<ref_file> <img_dir> <stats_file>]
     main.py --plot [--show --hue --lc (--set_window <lch_y_top>) <ref_file> <img_dir> <stats_file> <plot_dir>]
-    main.py --example
+    main.py --example [--fetch_some]
     main.py (-h | --help)
 Options:
     --fetch         Fetch DMC reference pictures from urls in provided CSV file and exit.
@@ -18,6 +18,7 @@ Options:
     --lc            Also draw combined histograms for lightness and chroma, without hue. Windows are set dynamically.
     --set_window    Define an integer number as a custom top bound of the y-axis in the combined Oklch histograms.
     --example       Run basic functionality with example files.
+    --fetch_some    Fetch some more example pictures from DMC before running the example functions.
     -h --help       Show this screen.
 """
 
@@ -45,6 +46,8 @@ if __name__ == '__main__':
 
     # example paths
     if args['--example']:
+        args['<url_file>'] = './example/tables/DMC_urls_example.csv'
+        args['<save_dir>'] = './example/pics/'
         args['<ref_file>'] = './example/tables/lord_libidan_hexcodes.csv'
         args['<img_dir>'] = './example/pics/'
         args['<stats_file>'] = './example/tables/stats.csv'

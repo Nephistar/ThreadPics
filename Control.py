@@ -13,6 +13,7 @@ class Control:
         self.lc_flag = bool(args['--lc'])
         self.set_window = bool(args['--set_window'])
         self.example_mode = bool(args['--example'])
+        self.example_fetch = bool(args['--fetch_some'])
         self.url_file = args['<url_file>']
         self.save_dir = args['<save_dir>']
         self.lch_y_top = args['<lch_y_top>']
@@ -29,6 +30,8 @@ class Control:
            PicFetcher.fetch(self.url_file, self.save_dir)
         else:
             if self.example_mode:
+                if self.example_fetch:
+                    PicFetcher.fetch(self.url_file, self.save_dir)
                 self.plot_mode = True
                 self.show_mode = True
             self.process_dir()
