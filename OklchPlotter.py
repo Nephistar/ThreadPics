@@ -85,8 +85,8 @@ class OklchPlotter:
         self.x = np.arange(width)
         self.fig, self.ax = plt.subplots()
         self.label_axes()
-        yellow = Plot_Lines(self.x, self.ax, self.lightness_stats, 'y')
         cyan = Plot_Lines(self.x, self.ax, self.chroma_stats, 'c')
+        yellow = Plot_Lines(self.x, self.ax, self.lightness_stats, 'y')
         self.ax.legend((yellow.line, cyan.line, cyan.square, cyan.triangle, cyan.dot,
                         cyan.dotted_vline_left, cyan.ref_vline),
                        ('lightness', 'chroma', 'mode', 'median', 'mean',
@@ -104,9 +104,9 @@ class OklchPlotter:
         self.fig, self.ax = plt.subplots()
         self.ax.set_ylim(top=y_top)
         self.label_axes()
-        yellow = Plot_Lines(self.x, self.ax, self.lightness_stats, 'y')
-        cyan = Plot_Lines(self.x, self.ax, self.chroma_stats, 'c')
         magenta = Plot_Lines(self.x, self.ax, self.hue_stats, 'm')
+        cyan = Plot_Lines(self.x, self.ax, self.chroma_stats, 'c')
+        yellow = Plot_Lines(self.x, self.ax, self.lightness_stats, 'y')
         self.ax.legend((yellow.line, cyan.line, magenta.line,
                         magenta.square, magenta.triangle, magenta.dot,
                         magenta.dotted_vline_left, magenta.ref_vline),
