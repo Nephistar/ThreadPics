@@ -2,6 +2,7 @@
 pics/*
 plots/*
 tables/*
+example/pics
 sandbox/*
 sandbox.py
 
